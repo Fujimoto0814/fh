@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="WpfApp3.Views.MainWindowTableItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp3.Views"
+             mc:Ignorable="d" 
+             Width="300px" Height="149px">
+    <UserControl.Resources>
+        <!-- テーブルの１枠全体 -->
+        <Style x:Key="tblitm" TargetType="WrapPanel">
+            <Setter Property="Width" Value="300px"/>
+            <Setter Property="Height" Value="149px"/>
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected,FallbackValue=false}" Value="true">
+                    <Setter Property="Background" Value="LemonChiffon"/>
+                </DataTrigger>
+                <!-- リストの各アイテムが選択されている時のスタイル -->
+                <DataTrigger Binding="{Binding IsEnabled}" Value="false">
+                    <Setter Property="Background" Value="Gray"/>
+                </DataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- テーブル項目1(リスト) -->
+        <Style x:Key="tblLblItm1" TargetType="Label">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Width" Value="150px"/>
+            <Setter Property="Height" Value="51px"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <!-- テーブル項目2(リスト) -->
+        <Style x:Key="tblLblItm2" TargetType="Label">
+            <Setter Property="Width" Value="300px"/>
+            <Setter Property="Height" Value="51px"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+    <WrapPanel Style="{StaticResource tblitm}">
+        <Label Content="{Binding Name}" Style="{StaticResource tblLblItm1}"></Label>
+        <Label Content="{Binding Age}" Style="{StaticResource tblLblItm1}" Margin="0,0,0,0"></Label>
+        <Label Content="{Binding Address}" Style="{StaticResource tblLblItm2}" Margin="0,-2,0,0"></Label>
+        <Label Margin="0,-2,0,0">
+            <Label.Style>
+                <Style TargetType="Label" BasedOn="{StaticResource tblLblItm1}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEnabled}" Value="True">
+                            <Setter Property="Content" Value="{Binding Birthday}"/>
+                            <Setter Property="ContentStringFormat" Value="yyyy/MM/dd"/>
+                        </DataTrigger>                        
+                        <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                            <Setter Property="Content" Value=""/>
+                            <Setter Property="ContentStringFormat" Value=""/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
+        <Label Content="{Binding Job}" Margin="0,-2,0,0" Style="{StaticResource tblLblItm1}">
+
+        </Label>
+    </WrapPanel>
+</UserControl>

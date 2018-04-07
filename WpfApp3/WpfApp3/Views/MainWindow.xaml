@@ -1,0 +1,172 @@
+﻿<Page x:Class="WpfApp3.Views.MainWindow"
+      x:Name="basePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:WpfApp3.Views"
+      xmlns:utils="clr-namespace:WpfApp3.Utils"
+      xmlns:localVMs="clr-namespace:WpfApp3.ViewModels"
+      xmlns:localModels="clr-namespace:WpfApp3.Models"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+      md:DialogServiceViews.IsRegistered="True"
+      mc:Ignorable="d"
+      Title="{Binding Title}"
+      Height="800" Width="1200"
+      ShowsNavigationUI="False">
+
+    <Page.Resources>
+        <!-- Insert here your Data Templates -->
+
+        <CollectionViewSource Source="{Binding ListData}" x:Key="source1">
+            <CollectionViewSource.SortDescriptions>
+
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+        <!-- テーブルの全体 -->
+        <Style x:Key="tblAll" TargetType="WrapPanel">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="299px"/>
+            <Setter Property="Height" Value="770px"/>
+            <Setter Property="Background" Value="Yellow"/>
+        </Style>
+        <!-- テーブルの１枠全体 -->
+        <Style x:Key="tblitm" TargetType="WrapPanel">
+            <Setter Property="Width" Value="300px"/>
+            <Setter Property="Height" Value="149px"/>
+        </Style>
+        <!-- テーブル項目1 -->
+        <Style x:Key="tblLbl1" TargetType="Label">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="150px"/>
+            <Setter Property="Height" Value="51px"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <!-- テーブル項目2 -->
+        <Style x:Key="tblLbl2" TargetType="Label">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="299px"/>
+            <Setter Property="Height" Value="51px"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <!-- テーブル項目1(リスト) -->
+        <Style x:Key="tblLblItm1" TargetType="Label">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="150px"/>
+            <Setter Property="Height" Value="51px"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <!-- テーブル項目2(リスト) -->
+        <Style x:Key="tblLblItm2" TargetType="Label">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="299px"/>
+            <Setter Property="Height" Value="51px"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- テーブル項目1 -->
+        <Style x:Key="tblLst" TargetType="ListBox">
+            <Setter Property="Width" Value="299px"/>
+            <Setter Property="Height" Value="500px"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- リストの各アイテム -->
+        <Style x:Key="tblLstItm" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="-1,-1"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+            <Style.Triggers>
+                <!-- リストの各アイテムが選択されている時のスタイル -->
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="LightGreen"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- 詳細ラベル(共通) -->
+        <Style x:Key="lblDetail" TargetType="Label">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="top"/>
+            <Setter Property="FontSize" Value="72"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+
+
+    </Page.Resources>
+    <Canvas>
+        <WrapPanel Style="{StaticResource tblAll}">
+            <WrapPanel Style="{StaticResource tblitm}">
+                <Label Style="{StaticResource tblLbl1}"></Label>
+                <Label Style="{StaticResource tblLbl1}" Margin="-1,0,0,0"></Label>
+                <Label Style="{StaticResource tblLbl2}" Margin="0,-2,0,0"></Label>
+                <Label Style="{StaticResource tblLbl1}" Margin="0,-2,0,0"></Label>
+                <Label Style="{StaticResource tblLbl1}" Margin="-1,-2,0,0"></Label>
+            </WrapPanel>
+            <ListBox Style="{StaticResource tblLst}" ItemsSource="{Binding ShowListData}"
+                     SelectedItem="{Binding SelectionListData}"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource tblLstItm}"/>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <local:MainWindowTableItem/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Width="50px" Height="20px" Background="Red" Content="aaa" Command="{Binding LabelCmd}"></Button>
+            <Label Width="300px" Height="20px" Content="{Binding LblTxt,FallbackValue=mindstorm}" Padding="5,0,0,0" VerticalContentAlignment="Center" BorderBrush="Aqua" BorderThickness="1"></Label>
+
+            <Label Width="100px" Height="100px" Content="111" VerticalAlignment="Top" Background="Black"
+                   utils:MouseDownBehavior.Command="{Binding LabelCmd}"></Label>
+
+
+        </WrapPanel>
+        <WrapPanel Width="700" Height="700" Margin="300,0,0,0" Background="LightCoral">
+            <Label Style="{StaticResource lblDetail}" Width="700" Height="100" Background="LemonChiffon" Padding="0">
+                <TextBox Width="700" Height="100" Background="LemonChiffon" BorderThickness="0"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                         Text="{Binding SelectionListData.Name,FallbackValue=姫路一,UpdateSourceTrigger=PropertyChanged}"
+                         ></TextBox>
+            </Label>
+            <Label Style="{StaticResource lblDetail}" Content="{Binding SelectionListData.Age,FallbackValue=25}" Width="700" Height="150" Background="Khaki"></Label>
+            <Label Style="{StaticResource lblDetail}" Content="{Binding SelectionListData.Address,FallbackValue=姫路市姫路城}" Width="700" Height="150" Background="LightGreen"></Label>
+            <Label Style="{StaticResource lblDetail}" Width="700" Height="150" Background="LightBlue" Padding="0"
+                   Content="{Binding SelectionListData.Birthday, FallbackValue=1}" ContentStringFormat="yyyy/MM/dd"
+                   utils:MouseDownBehavior.Command="{Binding ShowCalendarCmd}"
+                   utils:MouseDownBehavior.CommandParameter="{Binding SelectionListData.Birthday}">
+            </Label>
+            <Label Style="{StaticResource lblDetail}" Content="{Binding SelectionListData.Job,FallbackValue=公務員}" Width="700" Height="150" Background="LightPink"></Label>
+        </WrapPanel>
+
+        <local:CalendarControl Margin="600,550"/>
+    </Canvas>
+
+</Page>

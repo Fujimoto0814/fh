@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="WpfApp3.Views.CalendarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp3.Views"
+             xmlns:utils="clr-namespace:WpfApp3.Utils"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="150"
+             Visibility="{Binding Path=CalendarCollection.CalendarVisible}"
+             VerticalContentAlignment="Top"
+             VerticalAlignment="Top"
+             HorizontalAlignment="Left">
+    <Grid>
+        <Label Height="20" Width="30"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="Green" Background="LightCyan"
+               Content="＜" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               utils:MouseDownBehavior.Command="{Binding Path=CalendarCollection.ToggleMonthCommand}"
+               utils:MouseDownBehavior.CommandParameter="-1"
+               />
+        <Label Height="20" Width="90" VerticalAlignment="Top" Background="DarkCyan" Content="{Binding CalendarCollection.YearMonth}" ContentStringFormat="yyyy年MM月" HorizontalContentAlignment="Center" Padding="0" Foreground="White"/>
+        <Label Height="20" Width="30"
+               HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="Green" Background="LightCyan"
+               Content="＞" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               utils:MouseDownBehavior.Command="{Binding Path=CalendarCollection.ToggleMonthCommand}"
+               utils:MouseDownBehavior.CommandParameter="+1"
+               />
+        <ItemsControl x:Name="CalendarCtrl" Width="150" Height="160" Margin="0,20" VerticalAlignment="Top" VerticalContentAlignment="Top" ItemsSource="{Binding Path=CalendarCollection.MonthCalendar}" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" Height="160" VerticalAlignment="Top" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding DayName}"
+                           BorderThickness="1"
+                           BorderBrush="Gray"
+                           Foreground="{Binding TextColor}"
+                           Background="{Binding TextBackground}"
+                           Width="25"
+                           Height="25"
+                           FontSize="10"
+                           utils:MouseDownBehavior.Command="{Binding Path=DataContext.CalendarCollection.SelectDayCmd,ElementName=CalendarCtrl}"
+                           utils:MouseDownBehavior.CommandParameter="{Binding DayName}"
+                           >
+                    </Label>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>
